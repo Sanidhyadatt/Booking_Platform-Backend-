@@ -73,6 +73,18 @@ export class BookingsController {
     return this.bookingsService.updateStatus(id, updateBookingStatusDto.status);
   }
 
+  @Patch(':id/cancel')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Cancel booking (Authenticated)' })
+  @ApiResponse({ status: 200, description: 'Booking cancelled successfully' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 404, description: 'Booking not found' })
+  @ResponseMessage('Booking cancelled successfully')
+  cancel(@Param('id', ParseIntPipe) id: number) {
+    return this.bookingsService.cancel(id);
+  }
+
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()

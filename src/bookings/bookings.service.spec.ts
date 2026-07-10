@@ -140,4 +140,27 @@ describe('BookingsService', () => {
       );
     });
   });
+
+  describe('cancel', () => {
+    it('should successfully cancel a booking by setting status to CANCELLED', async () => {
+      const mockBooking = {
+        id: 1,
+        status: BookingStatus.PENDING,
+      };
+      const cancelledBooking = {
+        id: 1,
+        status: BookingStatus.CANCELLED,
+      };
+      mockPrismaService.booking.findUnique.mockResolvedValue(mockBooking);
+      mockPrismaService.booking.update.mockResolvedValue(cancelledBooking);
+
+      const result = await service.cancel(1);
+
+      expect(mockPrismaService.booking.update).toHaveBeenCalledWith({
+        where: { id: 1 },
+        data: { status: BookingStatus.CANCELLED },
+      });
+      expect(result.status).toBe(BookingStatus.CANCELLED);
+    });
+  });
 });

@@ -166,6 +166,14 @@ export class BookingsService {
     });
   }
 
+  async cancel(id: number): Promise<Booking> {
+    const booking = await this.findOne(id);
+    return this.prisma.booking.update({
+      where: { id },
+      data: { status: BookingStatus.CANCELLED },
+    });
+  }
+
   async remove(id: number): Promise<Booking> {
     await this.findOne(id);
     return this.prisma.booking.delete({
