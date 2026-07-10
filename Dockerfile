@@ -42,4 +42,4 @@ COPY --from=builder /usr/src/app/node_modules/@prisma/client ./node_modules/@pri
 EXPOSE 3000
 
 # Script to run migrations and start the server
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/main"]
+CMD ["sh", "-c", "npx prisma migrate deploy && node dist/src/main"]
